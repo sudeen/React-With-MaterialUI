@@ -1,14 +1,12 @@
 import React from "react";
-import {
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
 import Header from "../components/ui/Header";
+
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "./ui/Theme";
 
 function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme}>
       <Header />
       hello
     </ThemeProvider>
