@@ -14,9 +14,13 @@ import { useTheme } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 import logo from "../../assets/logo.svg";
 
+// This function is used to make the header sticky
 function ElevationScroll(props) {
   const { children } = props;
 
@@ -30,6 +34,7 @@ function ElevationScroll(props) {
   });
 }
 
+// USED FOR STYLING THE THEME
 const useStyles = makeStyles(theme => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -96,6 +101,20 @@ const useStyles = makeStyles(theme => ({
     height: "50px",
     width: "50px",
   },
+  drawer: {
+    backgroundColor: theme.palette.common.blue,
+  },
+  drawerItem: {
+    ...theme.typography.tab,
+    color: "white",
+    opacity: 0.7,
+  },
+  drawerItemEstimate: {
+    backgroundColor: theme.palette.common.orange,
+  },
+  drawerItemSelected: {
+    opacity: 1,
+  },
 }));
 
 export default function Header(props) {
@@ -104,32 +123,38 @@ export default function Header(props) {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
+  //   React useState hook
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  //   handle change function
   const handleChange = (e, newValue) => {
     setValue(newValue);
   };
 
+  //   handle click function
   const handleClick = e => {
     setAnchorEl(e.currentTarget);
     setOpenMenu(true);
   };
 
+  //   handle menu item click function
   const handleMenuItemClick = (e, i) => {
     setAnchorEl(null);
     setOpenMenu(false);
     setSelectedIndex(i);
   };
 
+  //   handle close function
   const handleClose = e => {
     setAnchorEl(null);
     setOpenMenu(false);
   };
 
+  //   menu options that is diplayed while hovering the services tab
   const menuOptions = [
     { name: "Services", link: "/services" },
     { name: "Custom Software Developmemt", link: "/customsoftware" },
@@ -137,6 +162,7 @@ export default function Header(props) {
     { name: "Websites Development", link: "/websites" },
   ];
 
+  //   REACT useEffect hook
   useEffect(() => {
     if (window.location.pathname === "/" && value !== 0) {
       setValue(0);
@@ -208,6 +234,7 @@ export default function Header(props) {
     }
   }, [value]);
 
+  //   TABS
   const tabs = (
     <React.Fragment>
       <Tabs
@@ -278,6 +305,7 @@ export default function Header(props) {
     </React.Fragment>
   );
 
+  // Swipable Drawer
   const drawer = (
     <React.Fragment>
       <SwipeableDrawer
@@ -290,8 +318,143 @@ export default function Header(props) {
         onOpen={() => {
           setOpenDrawer(true);
         }}
+        classes={{ paper: classes.drawer }}
       >
-        Example Drawer
+        <List disablePadding>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(0);
+            }}
+            divider
+            button
+            component={Link}
+            to="/"
+            selected={value === 0}
+          >
+            <ListItemText
+              className={
+                value === 0
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Home
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(0);
+            }}
+            divider
+            button
+            component={Link}
+            to="/services"
+            selected={value === 1}
+          >
+            <ListItemText
+              className={
+                value === 1
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Services
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(2);
+            }}
+            divider
+            button
+            component={Link}
+            to="/revolution"
+            selected={value === 2}
+          >
+            <ListItemText
+              className={
+                value === 2
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Revolution
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(3);
+            }}
+            divider
+            button
+            component={Link}
+            to="/contact"
+            selected={value === 3}
+          >
+            <ListItemText
+              className={
+                value === 3
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Contact Us
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(4);
+            }}
+            divider
+            button
+            component={Link}
+            to="/about"
+            selected={value === 4}
+          >
+            <ListItemText
+              className={
+                value === 4
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              About Us
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(5);
+            }}
+            divider
+            button
+            component={Link}
+            to="/estimate"
+            className={classes.drawerItemEstimate}
+            selected={value === 5}
+          >
+            <ListItemText
+              className={
+                value === 5
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Free Estimate
+            </ListItemText>
+          </ListItem>
+        </List>
       </SwipeableDrawer>
       <IconButton
         className={classes.drawerIconContainer}
@@ -303,6 +466,7 @@ export default function Header(props) {
     </React.Fragment>
   );
 
+  //   RETURN FUNCTION
   return (
     <React.Fragment>
       <ElevationScroll>
