@@ -1,7 +1,7 @@
 import {
   createMuiTheme,
-//   makeStyles,
-//   ThemeProvider,
+  //   makeStyles,
+  //   ThemeProvider,
 } from "@material-ui/core/styles";
 
 const arcBlue = "#0B72B9";
@@ -26,6 +26,13 @@ export default createMuiTheme({
       textTransform: "none",
       fontWeight: 700,
       fontSize: "1em",
+    },
+    h2: {
+      fontFamily: "Ralewway",
+      fontWeight: 700,
+      fontSize: "2.5rem",
+      color: `${arcBlue}`,
+      lineHeight: 1.5,
     },
   },
 });
