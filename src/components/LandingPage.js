@@ -5,9 +5,11 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ButtonArrow from "../components/ui/ButtonArrow";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import animationData from "../animations/landinganimation/data";
 import customSoftwareIcon from "../assets/Custom Software Icon.svg";
+import mobileAppIcon from "../assets/mobileIcon.svg";
 
 const useStyles = makeStyles(theme => ({
   animation: {
@@ -43,7 +45,10 @@ const useStyles = makeStyles(theme => ({
     ...theme.typography.learnButton,
     fontSize: "0.7rem",
     height: 35,
-    padding: 5
+    padding: 5,
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "2em",
+    },
   },
   mainContainer: {
     marginTop: "5em",
@@ -63,16 +68,29 @@ const useStyles = makeStyles(theme => ({
   },
   specialText: {
     fontFamily: "Pacifico",
-    color: theme.palette.common.orange
+    color: theme.palette.common.orange,
   },
   subtitle: {
-    marginBottom: "1em"
+    marginBottom: "1em",
+  },
+  icon: {
+    marginLeft: "2em",
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: 0,
+    },
+  },
+  serviceContainer: {
+    marginTop: "12em",
+    [theme.breakpoints.down("sm")]: {
+      padding: 25,
+    },
   },
 }));
 
 export default function LandingPage() {
   const classes = useStyles();
   const theme = useTheme();
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   //   Copied this from github docs
   const defaultOptions = {
@@ -86,7 +104,9 @@ export default function LandingPage() {
 
   return (
     <Grid container direction="column" className={classes.mainContainer}>
-      <Grid item> {/*-----Hero Block-----*/}
+      <Grid item>
+        {" "}
+        {/*-----Hero Block-----*/}
         <Grid container justify="flex-end" alignItems="center" direction="row">
           <Grid sm item className={classes.heroTextContainer}>
             <Typography variant="h2" align="center">
@@ -121,12 +141,22 @@ export default function LandingPage() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item> {/*-----Services Block-----*/}
-        <Grid container direction="row">
-          <Grid item>
-            <Typography variant="h4">
-            Custom Software Development
-            </Typography>
+      <Grid item>
+        {/*-----Services Block-----*/}
+        <Grid
+          container
+          direction="row"
+          justify={matchesSM ? "center" : undefined}
+          className={classes.serviceContainer}
+        >
+          <Grid
+            item
+            style={{
+              marginLeft: matchesSM ? 0 : "5em",
+              textAlign: matchesSM ? "center" : undefined,
+            }}
+          >
+            <Typography variant="h4">Custom Software Development</Typography>
             <Typography variant="subtitle1" className={classes.subtitle}>
               Save Energy. Save Time. Save Money.
             </Typography>
@@ -135,12 +165,60 @@ export default function LandingPage() {
               <span className={classes.specialText}>celebration.</span>
             </Typography>
             <Button variant="outlined" className={classes.learnButton}>
-            <span style={{ marginRight: 10 }}>Learn More</span>
-            <ButtonArrow width={10} height={10} fill={theme.palette.common.blue}></ButtonArrow>
+              <span style={{ marginRight: 10 }}>Learn More</span>
+              <ButtonArrow
+                width={10}
+                height={10}
+                fill={theme.palette.common.blue}
+              ></ButtonArrow>
             </Button>
           </Grid>
           <Grid item>
-            <img alt="custom software icon" src={customSoftwareIcon} />
+            <img
+              className={classes.icon}
+              alt="custom software icon"
+              src={customSoftwareIcon}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        {/*-----iOS/Android Block-----*/}
+        <Grid
+          container
+          direction="row"
+          justify={matchesSM ? "center" : "flex-end"}
+          className={classes.serviceContainer}
+        >
+          <Grid
+            item
+            style={{
+              textAlign: matchesSM ? "center" : undefined,
+            }}
+          >
+            <Typography variant="h4">iOS/Android App Development</Typography>
+            <Typography variant="subtitle1" className={classes.subtitle}>
+              Extend Functionality. Extend Access. Increase Engagement.
+            </Typography>
+            <Typography variant="subtitle1">
+              Integrate your web experience or create a standalone app
+              {matchesSM ? null : <br />} either mobile platform.
+            </Typography>
+            <Button variant="outlined" className={classes.learnButton}>
+              <span style={{ marginRight: 10 }}>Learn More</span>
+              <ButtonArrow
+                width={10}
+                height={10}
+                fill={theme.palette.common.blue}
+              ></ButtonArrow>
+            </Button>
+          </Grid>
+          <Grid item style={{ marginRight: matchesSM ? 0 : "5em" }}>
+            <img
+              className={classes.icon}
+              alt="mobile phone icon"
+              src={mobileAppIcon}
+            />
           </Grid>
         </Grid>
       </Grid>
