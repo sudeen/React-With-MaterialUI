@@ -68,6 +68,7 @@ const useStyles = makeStyles(theme => ({
     ...theme.typography.tab,
     minWidth: 10,
     marginLeft: "25px",
+    // color: "white",
   },
   button: {
     borderRadius: "50px",
@@ -93,6 +94,7 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       opacity: 1,
     },
+    color: "white",
   },
   drawerIconContainer: {
     marginLeft: "auto",
