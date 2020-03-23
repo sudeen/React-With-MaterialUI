@@ -1,5 +1,4 @@
 import React from "react";
-// import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
