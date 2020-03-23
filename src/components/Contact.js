@@ -78,9 +78,45 @@ export default function Contact(props) {
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
+  const [emailHelper, setEmailHelper] = useState("");
+
   const [phone, setPhone] = useState("");
+  const [phoneHelper, setPhoneHelper] = useState("");
+
   const [message, setMessage] = useState("");
+
+  const onChange = event => {
+    let valid;
+    switch (event.target.id) {
+      case "email":
+        setEmail(event.target.value);
+        valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+          event.target.value
+        );
+        if (!valid) {
+          setEmailHelper("Invalid email");
+        } else {
+          setEmailHelper("");
+        }
+        break;
+
+      case "phone":
+        setPhone(event.target.value);
+        valid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+          event.target.value
+        );
+        if (!valid) {
+          setPhoneHelper("Invalid phone");
+        } else {
+          setPhoneHelper("");
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <Grid container direction="row">
@@ -172,18 +208,22 @@ export default function Contact(props) {
                 <TextField
                   label="Email"
                   id="email"
+                  error={emailHelper.length !== 0}
+                  helperText={emailHelper}
                   fullWidth
                   value={email}
-                  onChange={event => setEmail(event.target.value)}
+                  onChange={onChange}
                 />
               </Grid>
               <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Phone"
                   id="phone"
+                  error={phoneHelper.length !== 0}
+                  helperText={phoneHelper}
                   fullWidth
                   value={phone}
-                  onChange={event => setPhone(event.target.value)}
+                  onChange={onChange}
                 />
               </Grid>
             </Grid>
