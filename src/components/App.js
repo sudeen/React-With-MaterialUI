@@ -10,6 +10,7 @@ import Websites from "./Websites";
 import Revolution from "./Revolution";
 import About from "./About";
 import Contact from "./Contact";
+import Estimate from "./Estimate";
 
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./ui/Theme";
@@ -119,7 +120,17 @@ function App() {
               />
             )}
           />
-          <Route exact path="/estimate" component={() => <div>Estimate</div>} />
+          <Route
+            exact
+            path="/estimate"
+            render={props => (
+              <Estimate
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
         </Switch>
         <Footer
           selectedIndex={selectedIndex}

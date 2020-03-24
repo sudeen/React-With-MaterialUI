@@ -141,7 +141,15 @@ export default function Contact(props) {
     setLoading(true);
     axios
       .get(
-        "https://us-central1-react-with-materialui.cloudfunctions.net/sendMail"
+        "https://us-central1-react-with-materialui.cloudfunctions.net/sendMail",
+        {
+          params: {
+            name: name,
+            email: email,
+            phone: phone,
+            message: message,
+          },
+        }
       )
       .then(res => {
         setLoading(false);
@@ -245,10 +253,10 @@ export default function Contact(props) {
                   style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
                 >
                   <a
-                    href="mailto:ranjitkarsudeen14@gmail.com"
+                    href="mailto:mailingtest14@gmail.com"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    ranjitkarsudeen14@gmail.com
+                    mailingtest14@gmail.com
                   </a>
                 </Typography>
               </Grid>
