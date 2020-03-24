@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import Lottie from "react-lottie";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +10,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ButtonArrow from "./ui/ButtonArrow";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import background from "../assets/background.jpg";
 import mobileBackground from "../assets/mobileBackground.jpg";
@@ -96,6 +97,8 @@ export default function Contact(props) {
 
   const [open, setOpen] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const onChange = event => {
     let valid;
     switch (event.target.id) {
@@ -126,6 +129,30 @@ export default function Contact(props) {
         break;
     }
   };
+
+  const onConfirm = () => {
+    setLoading(true);
+    axios
+      .get(
+        "https://us-central1-react-with-materialui.cloudfunctions.net/sendMail"
+      )
+      .then(res => {
+        setLoading(false);
+        setOpen(false);
+        setName("");
+        setEmail("");
+        setPhone("");
+        setMessage("");
+      })
+      .catch(err => setLoading(false));
+  };
+
+  const buttonContents = (
+    <React.Fragment>
+      Send Message
+      <img src={airplane} alt="paper airplane" style={{ marginLeft: "1em" }} />
+    </React.Fragment>
+  );
 
   return (
     <Grid container direction="row">
@@ -271,12 +298,7 @@ export default function Contact(props) {
                 className={classes.sendButton}
                 onClick={() => setOpen(true)}
               >
-                Send Message
-                <img
-                  src={airplane}
-                  alt="paper airplane"
-                  style={{ marginLeft: "1em" }}
-                />
+                {buttonContents}
               </Button>
             </Grid>
           </Grid>
@@ -364,12 +386,12 @@ export default function Contact(props) {
           </Grid>
           <Grid
             item
-            container
+            // container
             direction={matchesSM ? "column" : "row"}
             style={{ marginTop: "2em" }}
             alignItems="center"
           >
-            <Grid item>
+            <Grid item container align="center">
               <Button
                 style={{ fontWeight: 300 }}
                 color="primary"
@@ -388,14 +410,9 @@ export default function Contact(props) {
                 }
                 variant="contained"
                 className={classes.sendButton}
-                onClick={() => setOpen(true)}
+                onClick={onConfirm}
               >
-                Send Message
-                <img
-                  src={airplane}
-                  alt="paper airplane"
-                  style={{ marginLeft: "1em" }}
-                />
+                {loading ? <CircularProgress size={30} /> : buttonContents}
               </Button>
             </Grid>
           </Grid>
