@@ -70,6 +70,10 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
     },
+    [theme.breakpoints.down("sm")]: {
+      height: 40,
+      width: 225,
+    },
   },
 }));
 
@@ -78,6 +82,7 @@ export default function Contact(props) {
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
   const [name, setName] = useState("");
 
@@ -278,11 +283,36 @@ export default function Contact(props) {
         </Grid>
       </Grid>
       {/* Dialog Block */}
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog
+        fullScreen={matchesXS}
+        style={{ zIndex: 1302 }}
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          style: {
+            paddingTop: matchesXS ? "1em" : "5em",
+            paddingBottom: matchesXS ? "1em" : "5em",
+            paddingRight: matchesXS
+              ? 0
+              : matchesSM
+              ? "5em"
+              : matchesMD
+              ? "10em"
+              : "20em",
+            paddingLeft: matchesXS
+              ? 0
+              : matchesSM
+              ? "5em"
+              : matchesMD
+              ? "10em"
+              : "20em",
+          },
+        }}
+      >
         <DialogContent>
           <Grid container direction="column">
             <Grid item>
-              <Typography variant="h4" gutterBottom>
+              <Typography align="center" variant="h4" gutterBottom>
                 Confirm Message
               </Typography>
             </Grid>
@@ -320,7 +350,7 @@ export default function Contact(props) {
             </Grid>
           </Grid>
           {/* Message Block */}
-          <Grid item style={{ maxWidth: "20em" }}>
+          <Grid item style={{ maxWidth: matchesXS ? "100%" : "20em" }}>
             <TextField
               InputProps={{ disableUnderline: true }}
               multiline
@@ -331,6 +361,43 @@ export default function Contact(props) {
               id="message"
               onChange={event => setMessage(event.target.value)}
             />
+          </Grid>
+          <Grid
+            item
+            container
+            direction={matchesSM ? "column" : "row"}
+            style={{ marginTop: "2em" }}
+            alignItems="center"
+          >
+            <Grid item>
+              <Button
+                style={{ fontWeight: 300 }}
+                color="primary"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+            </Grid>
+            <Grid item container>
+              <Button
+                disabled={
+                  name.length === 0 ||
+                  message.length === 0 ||
+                  phoneHelper.length !== 0 ||
+                  emailHelper.length !== 0
+                }
+                variant="contained"
+                className={classes.sendButton}
+                onClick={() => setOpen(true)}
+              >
+                Send Message
+                <img
+                  src={airplane}
+                  alt="paper airplane"
+                  style={{ marginLeft: "1em" }}
+                />
+              </Button>
+            </Grid>
           </Grid>
         </DialogContent>
       </Dialog>
