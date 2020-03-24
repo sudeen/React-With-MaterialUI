@@ -33,7 +33,24 @@ import biometrics from "../assets/biometrics.svg";
 
 import estimateAnimation from "../animations/estimateAnimation/data.json";
 
-const useStyles = makeStyles(theme => {});
+const useStyles = makeStyles(theme => ({
+  icon: {
+    width: "10em",
+    height: "10em",
+  },
+  estimateButton: {
+    ...theme.typography.estimate,
+    borderRadius: 50,
+    backgroundColor: theme.palette.common.orange,
+    height: 50,
+    width: 225,
+    fontSize: "1.25rem",
+    marginTop: "5em",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
+  },
+}));
 
 export default function Estimate() {
   const classes = useStyles();
@@ -50,20 +67,35 @@ export default function Estimate() {
 
   return (
     <Grid container direction="row">
-      <Grid item container direction="column">
-        <Grid item>
+      <Grid item container direction="column" lg>
+        <Grid item style={{ marginTop: "2em", marginLeft: "5em" }}>
           <Typography variant="h2">Estimate</Typography>
         </Grid>
-        <Grid item>
-          {/* <Lottie options={defaultOptions} height="100%" width="100%" /> */}
+        <Grid
+          item
+          style={{ marginRight: "10em", maxWidth: "50em", marginTop: "7.5em" }}
+        >
+          <Lottie options={defaultOptions} height="30em" width="100%" />
         </Grid>
       </Grid>
-      <Grid item container direction="column">
+      <Grid
+        item
+        container
+        direction="column"
+        alignItems="center"
+        lg
+        style={{ marginRight: "2em", marginBottom: "25em" }}
+      >
         <Grid item>
           <Typography
             variant="h2"
             align="center"
-            style={{ fontWeight: 300 }}
+            style={{
+              fontWeight: 500,
+              fontSize: "2.5rem",
+              marginBottom: "2.5em",
+              marginTop: "5em",
+            }}
             gutterBottom
           >
             Which service are you interested in?
@@ -71,39 +103,83 @@ export default function Estimate() {
         </Grid>
         {/* Container for options */}
         <Grid item container>
-          {/*  */}
-          <Grid item container direction="column">
+          {/* Icon 1 */}
+          <Grid item container direction="column" md>
             <Grid item style={{ maxWidth: "12em" }}>
-              <Typography variant="h6" align="center">
+              <Typography
+                variant="h6"
+                align="center"
+                style={{ marginBottom: "1em" }}
+              >
                 Custom Software Development
               </Typography>
             </Grid>
             <Grid item>
-              <img src={software} alt="three floating screens" />
+              <img
+                src={software}
+                alt="three floating screens"
+                className={classes.icon}
+              />
             </Grid>
           </Grid>
-          {/*  */}
-          <Grid item container direction="column">
+          {/* Icon 2 */}
+          <Grid item container direction="column" md>
             <Grid item style={{ maxWidth: "12em" }}>
-              <Typography variant="h6" align="center">
+              <Typography
+                variant="h6"
+                align="center"
+                style={{ marginBottom: "1em" }}
+              >
                 iOS/Android App Development
               </Typography>
             </Grid>
             <Grid item>
-              <img src={mobile} alt="phones and tablet outline" />
+              <img
+                src={mobile}
+                alt="phones and tablet outline"
+                className={classes.icon}
+              />
             </Grid>
           </Grid>
-          {/*  */}
-          <Grid item container direction="column">
+          {/* Icon 3 */}
+          <Grid item container direction="column" md>
             <Grid item style={{ maxWidth: "12em" }}>
-              <Typography variant="h6" align="center">
+              <Typography
+                variant="h6"
+                align="center"
+                style={{ marginBottom: "1em" }}
+              >
                 Website Development
               </Typography>
             </Grid>
             <Grid item>
-              <img src={website} alt="computer outline" />
+              <img
+                src={website}
+                alt="computer outline"
+                className={classes.icon}
+              />
             </Grid>
           </Grid>
+        </Grid>
+        {/* Arrows block */}
+        <Grid
+          item
+          container
+          justify="space-between"
+          style={{ width: "15em", marginTop: "3em" }}
+        >
+          <Grid item>
+            <img src={backArrow} alt="Previous question" />
+          </Grid>
+          <Grid item>
+            <img src={forwardArrow} alt="Next question" />
+          </Grid>
+        </Grid>
+        {/*  */}
+        <Grid item>
+          <Button variant="contained" className={classes.estimateButton}>
+            Get Estimate
+          </Button>
         </Grid>
       </Grid>
     </Grid>
