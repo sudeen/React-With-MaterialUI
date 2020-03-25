@@ -59,6 +59,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: "5em",
     borderRadius: 5,
   },
+  specialText: {
+    fontFamily: "Raleway",
+    fontWeight: 700,
+    fontSize: "1.5rem",
+    color: theme.palette.common.orange,
+  },
 }));
 
 const defaultQuestions = [
@@ -331,6 +337,8 @@ export default function Estimate() {
 
   const [message, setMessage] = useState("");
 
+  const [total, setTotal] = useState(0);
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -453,6 +461,32 @@ export default function Estimate() {
       default:
         break;
     }
+  };
+
+  const getTotal = () => {
+    let cost = 0;
+
+    // This should return an array filled with all of the object in each option
+    const selections = questions
+      .map(question => question.options.filter(option => option.selected))
+      .filter(question => question.length > 0);
+
+    selections.map(options => options.map(option => (cost += option.cost)));
+    if (questions.length > 2) {
+      const userCost = questions
+        .filter(question => question.title === "How many users do you expect?")
+        .map(question =>
+          question.options.filter(option => option.selected)
+        )[0][0].cost;
+
+      cost -= userCost;
+      cost *= userCost;
+      // console.log(userCost);
+    }
+
+    setTotal(cost);
+
+    // console.log(cost);
   };
 
   return (
@@ -586,7 +620,10 @@ export default function Estimate() {
           <Button
             variant="contained"
             className={classes.estimateButton}
-            onClick={() => setDialogOpen(true)}
+            onClick={() => {
+              setDialogOpen(true);
+              getTotal();
+            }}
           >
             Get Estimate
           </Button>
@@ -651,7 +688,8 @@ export default function Estimate() {
             {/*  */}
             <Grid item>
               <Typography variant="body1" paragraph>
-                We can create this digital solution for and estimated
+                We can create this digital solution for and estimated{" "}
+                <span className={classes.specialText}>${total.toFixed(2)}</span>
               </Typography>
               <Typography varaint="body1" paragraph>
                 Fill out your name, phone number, and email, place your request
