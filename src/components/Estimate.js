@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { cloneDeep } from "lodash"; // To work with nested arrays and objects
 import Lottie from "react-lottie";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -11,6 +12,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
+import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import check from "../assets/check.svg";
 import send from "../assets/send.svg";
@@ -352,6 +355,14 @@ export default function Estimate() {
   const [category, setCategory] = useState("");
   const [users, setUsers] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    backgroundColor: "",
+  });
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -576,6 +587,69 @@ export default function Estimate() {
     }
   };
 
+  const sendEstimate = () => {
+    setLoading(true);
+    axios
+      .get(
+        "https://us-central1-react-with-materialui.cloudfunctions.net/sendMail",
+        {
+          params: {
+            name: name,
+            email: email,
+            phone: phone,
+            message: message,
+            total: total,
+            category: category,
+            service: service,
+            platforms: platforms,
+            features: features,
+            customFeatures: customFeatures,
+            users: users,
+          },
+        }
+      )
+      .then(res => {
+        setLoading(false);
+        setAlert({
+          open: true,
+          message: "Estimate placed successfully!",
+          backgroundColor: "#4BB543",
+        });
+        setDialogOpen(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+        setAlert({
+          open: true,
+          message: "Something went wrong, please try again",
+          backgroundColor: "#FF3232",
+        });
+      });
+  };
+
+  const estimateDisabled = () => {
+    let disabled = true;
+    const emptySelections = questions
+      .map(question => question.options.filter(option => option.selected))
+      .filter(question => question.length === 0);
+    if (questions.length === 2) {
+      if (emptySelections.length === 1) {
+        disabled = false;
+      }
+    } else if (questions.length === 1) {
+      disabled = true;
+    } else if (
+      emptySelections.length < 3 &&
+      questions[questions.length - 1].options.filter(option => option.selected)
+        .length > 0
+    ) {
+      disabled = false;
+    }
+
+    return disabled;
+  };
+
   const softwareSelection = (
     <Grid container direction="column">
       {/* First options check */}
@@ -763,12 +837,13 @@ export default function Estimate() {
               {/* Container for options */}
               <Grid item container>
                 {/* Dynamic Item block */}
-                {question.options.map(option => (
+                {question.options.map((option, index) => (
                   <Grid
                     item
                     container
                     direction="column"
                     md
+                    key={index}
                     component={Button}
                     onClick={() => handleSelect(option.id)}
                     style={{
@@ -845,6 +920,7 @@ export default function Estimate() {
           <Button
             variant="contained"
             className={classes.estimateButton}
+            disabled={estimateDisabled()}
             onClick={() => {
               setDialogOpen(true);
               getTotal();
@@ -918,6 +994,7 @@ export default function Estimate() {
                   InputProps={{ disableUnderline: true }}
                   multiline
                   fullWidth
+                  placeholder="Tell us more about your project"
                   rows={10}
                   value={message}
                   className={classes.message}
@@ -962,13 +1039,29 @@ export default function Estimate() {
               </Hidden>
               {/*  For Button*/}
               <Grid item>
-                <Button variant="contained" className={classes.estimateButton}>
-                  Place Request
-                  <img
-                    src={send}
-                    alt="paper airplane"
-                    style={{ marginLeft: "0.5em" }}
-                  />
+                <Button
+                  variant="contained"
+                  className={classes.estimateButton}
+                  onClick={sendEstimate}
+                  disabled={
+                    name.length === 0 ||
+                    message.length === 0 ||
+                    phoneHelper.length !== 0 ||
+                    emailHelper.length !== 0
+                  }
+                >
+                  {loading ? (
+                    <CircularProgress />
+                  ) : (
+                    <React.Fragment>
+                      Place Request
+                      <img
+                        src={send}
+                        alt="paper airplane"
+                        style={{ marginLeft: "0.5em" }}
+                      />
+                    </React.Fragment>
+                  )}
                 </Button>
               </Grid>
               <Hidden mdUp>
@@ -990,6 +1083,14 @@ export default function Estimate() {
           </Grid>
         </DialogContent>
       </Dialog>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={alert.open}
+        message={alert.message}
+        ContentProps={{ style: { backgroundColor: alert.backgroundColor } }}
+        onClose={() => setAlert({ ...alert, open: false })}
+        autoHideDuration={4000}
+      />
     </Grid>
   );
 }

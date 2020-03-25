@@ -301,6 +301,7 @@ export default function Contact(props) {
                 InputProps={{ disableUnderline: true }}
                 multiline
                 fullWidth
+                placeholder="Tell us about your project"
                 rows={10}
                 value={message}
                 className={classes.message}
