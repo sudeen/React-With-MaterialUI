@@ -262,12 +262,7 @@ export default function Contact(props) {
               </Grid>
             </Grid>
             {/* Forms Block */}
-            <Grid
-              item
-              container
-              direction="column"
-              style={{ maxWidth: "20em" }}
-            >
+            <Grid item container direction="column" style={{ width: "20em" }}>
               <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Name"
@@ -301,7 +296,7 @@ export default function Contact(props) {
               </Grid>
             </Grid>
             {/* Message Block */}
-            <Grid item style={{ maxWidth: "20em" }}>
+            <Grid item style={{ width: "20em" }}>
               <TextField
                 InputProps={{ disableUnderline: true }}
                 multiline
@@ -333,7 +328,7 @@ export default function Contact(props) {
       </Grid>
       {/* Dialog Block */}
       <Dialog
-        fullScreen={matchesXS}
+        fullScreen={matchesSM}
         style={{ zIndex: 1302 }}
         open={open}
         onClose={() => setOpen(false)}
@@ -346,15 +341,15 @@ export default function Contact(props) {
               : matchesSM
               ? "5em"
               : matchesMD
-              ? "10em"
-              : "20em",
+              ? "15em"
+              : "25em",
             paddingLeft: matchesXS
               ? 0
               : matchesSM
               ? "5em"
               : matchesMD
-              ? "10em"
-              : "20em",
+              ? "15em"
+              : "25em",
           },
         }}
       >
@@ -399,7 +394,7 @@ export default function Contact(props) {
             </Grid>
           </Grid>
           {/* Message Block */}
-          <Grid item style={{ maxWidth: matchesXS ? "100%" : "20em" }}>
+          <Grid item style={{ width: matchesSM ? "100%" : "20em" }}>
             <TextField
               InputProps={{ disableUnderline: true }}
               multiline
@@ -418,7 +413,7 @@ export default function Contact(props) {
             style={{ marginTop: "2em" }}
             alignItems="center"
           >
-            <Grid item container align="center">
+            <Grid item align="center">
               <Button
                 style={{ fontWeight: 300 }}
                 color="primary"
@@ -427,7 +422,7 @@ export default function Contact(props) {
                 Cancel
               </Button>
             </Grid>
-            <Grid item container>
+            <Grid item align="center">
               <Button
                 disabled={
                   name.length === 0 ||

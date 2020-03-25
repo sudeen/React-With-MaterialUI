@@ -574,11 +574,16 @@ export default function Estimate() {
   const softwareSelection = (
     <Grid container direction="column">
       {/* First options check */}
-      <Grid item container alignItems="center">
-        <Grid item>
+      <Grid
+        item
+        container
+        alignItems="center"
+        style={{ marginBottom: "1.25em" }}
+      >
+        <Grid item xs={2}>
           <img src={check} alt="checkmark" />
         </Grid>
-        <Grid item>
+        <Grid item xs={10}>
           <Typography variant="body1">
             You want {service}
             {platforms.length > 0
@@ -612,13 +617,18 @@ export default function Estimate() {
         </Grid>
       </Grid>
       {/* Second Options check */}
-      <Grid item container alignItems="center">
-        <Grid item>
+      <Grid
+        item
+        container
+        alignItems="center"
+        style={{ marginBottom: "1.25em" }}
+      >
+        <Grid item xs={2}>
           <img src={check} alt="checkmark" />
         </Grid>
-        <Grid item>
+        <Grid item xs={10}>
           <Typography variant="body1">
-            {"with "}
+            {"With "}
             {/* if we have features... */}
             {features.length > 0
               ? //...and there's only 1...
@@ -647,10 +657,10 @@ export default function Estimate() {
       </Grid>
       {/* Third options check */}
       <Grid item container alignItems="center">
-        <Grid item>
+        <Grid item xs={2}>
           <img src={check} alt="checkmark" />
         </Grid>
-        <Grid item>
+        <Grid item xs={10}>
           <Typography variant="body1">
             The custom features will be of {customFeatures.toLowerCase()}
             {`, and the project will be used by about ${users} users.`}
@@ -664,10 +674,10 @@ export default function Estimate() {
     <Grid container direction="column">
       {/* First options check */}
       <Grid item container alignItems="center">
-        <Grid item>
+        <Grid item xs={2}>
           <img src={check} alt="checkmark" />
         </Grid>
-        <Grid item>
+        <Grid item xs={10}>
           <Typography variant="body1">
             You want{" "}
             {category === "Basic"
@@ -827,17 +837,19 @@ export default function Estimate() {
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
         style={{ zIndex: 1302 }}
+        fullWidth
+        maxWidth="lg"
       >
         <Grid container justify="center">
           <Grid item>
-            <Typography varaint="h2" align="center">
+            <Typography variant="h2" align="center">
               Estimate
             </Typography>
           </Grid>
         </Grid>
         <DialogContent>
-          <Grid container>
-            <Grid item container direction="column" md={7}>
+          <Grid container justify="space-around">
+            <Grid item direction="column" md={7} style={{ maxWidth: "20em" }}>
               <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Name"
@@ -897,7 +909,7 @@ export default function Estimate() {
               </Grid>
             </Grid>
             {/* Block on the right */}
-            <Grid item container direction="column" md={5}>
+            <Grid item direction="column" md={5} style={{ maxWidth: "30em" }}>
               <Grid item>
                 {questions.length > 2 ? softwareSelection : websiteSelection}
               </Grid>
